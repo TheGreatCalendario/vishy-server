@@ -1,0 +1,36 @@
+{
+  "name": "tbk-angular-github-version",
+  "authors": [
+    "tbk <theborakompanioni+angular-github-version@gmail.com>"
+  ],
+  "description": "a simple angular directive to display the latest version of a github repository",
+  "main": [
+    "main.js"
+  ],
+  "keywords": [
+    "angular",
+    "directive",
+    "draggable"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.11"
+  },
+  "homepage": "https://github.com/theborakompanioni/tbk-angular-github-version",
+  "_release": "c0fa414f0f",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c0fa414f0f005b0ce56338e4065322478834ec0a"
+  },
+  "_source": "git://github.com/theborakompanioni/tbk-angular-github-version.git",
+  "_target": "master",
+  "_originalSource": "theborakompanioni/tbk-angular-github-version"
+}

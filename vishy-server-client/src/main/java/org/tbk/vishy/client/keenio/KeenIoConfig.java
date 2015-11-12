@@ -1,36 +1,41 @@
 package org.tbk.vishy.client.keenio;
 
-import com.google.common.base.MoreObjects;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import io.keen.client.java.GlobalPropertiesEvaluator;
 import io.keen.client.java.JavaKeenClientBuilder;
 import io.keen.client.java.KeenClient;
 import io.keen.client.java.KeenProject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.tbk.openmrc.core.client.OpenMrcClient;
+import org.tbk.vishy.client.RequestToMapFunction;
 
 import java.util.Map;
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
+@Slf4j
 @Configuration
-@Conditional(KeenIoCondition.class)
+@EnableConfigurationProperties(KeenIoProperties.class)
+@ConditionalOnProperty("vishy.keenio.enabled")
 public class KeenIoConfig {
-    static final class EnvironmentVariables {
-        private static final String PROJECT_ID = "KEENIO_PROJECT_ID";
-        private static final String WRITE_KEY = "KEENIO_WRITE_KEY";
-        private static final String READ_KEY = "KEENIO_READ_KEY";
-    }
 
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private KeenIoProperties properties;
+
     @Bean
-    public OpenMrcClient keenOpenMrcClientAdapter(KeenClient keenClient) {
-        return new KeenOpenMrcClientAdapter(keenClient);
+    public OpenMrcRequestConsumer keenOpenMrcClientAdapter() {
+        return new KeenOpenMrcClientAdapter(keenClient(), new RequestToMapFunction());
     }
 
     @Bean
@@ -58,20 +63,20 @@ public class KeenIoConfig {
 
     @Bean
     public KeenProject keenProject() {
-        String projectId = environment.getProperty(EnvironmentVariables.PROJECT_ID);
-        String writeKey = environment.getProperty(EnvironmentVariables.WRITE_KEY);
-        String readKey = environment.getProperty(EnvironmentVariables.READ_KEY);
+        String projectId = requireNonNull(properties.getProjectId(), "Keen project id not specified.");
+        String writeKey = requireNonNull(properties.getWriteKey(), "Keen write key not specified.");
+        String readKey = requireNonNull(properties.getReadKey(), "Keen read key not specified.");
 
-        Objects.requireNonNull(projectId, "Environment variable " + EnvironmentVariables.PROJECT_ID + "not specified.");
-        Objects.requireNonNull(writeKey, "Environment variable " + EnvironmentVariables.WRITE_KEY + "not specified.");
-        Objects.requireNonNull(readKey, "Environment variable " + EnvironmentVariables.READ_KEY + "not specified.");
+        log.debug("Keen project id: {}", projectId);
+        log.debug("Keen write key: {}", writeKey);
+        log.debug("Keen read key: {}", readKey);
 
         return new KeenProject(projectId, writeKey, readKey);
     }
 
-    private Map<String, Object> globalProperties() {
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("_vishy_server_id", "kepler273");
-        return map;
+    public Map<String, Object> globalProperties() {
+        return ImmutableMap.<String, Object>builder()
+                .put("_vishy_server_id", "kepler273")
+                .build();
     }
 }

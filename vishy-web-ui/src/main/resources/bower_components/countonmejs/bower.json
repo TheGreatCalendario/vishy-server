@@ -1,0 +1,24 @@
+{
+  "name": "countonmejs",
+  "version": "0.1.1",
+  "main": [
+      "./dist/countonmejs.min.js"
+  ],
+  "ignore": [
+    "bin",
+    "spec",
+    "bower_components",
+    "node_modules",
+    "Gruntfile.js",
+    "karma.conf.json",
+    "SpecRunner.html",
+    "package.json",
+    "bower.json",
+    "**/.*"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jasmine": "jasmine/jasmine#2.1.3"
+  }
+}

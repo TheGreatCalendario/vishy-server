@@ -1,0 +1,33 @@
+{
+  "name": "countonmejs",
+  "version": "0.1.1",
+  "main": [
+    "./dist/countonmejs.min.js"
+  ],
+  "ignore": [
+    "bin",
+    "spec",
+    "bower_components",
+    "node_modules",
+    "Gruntfile.js",
+    "karma.conf.json",
+    "SpecRunner.html",
+    "package.json",
+    "bower.json",
+    "**/.*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "jasmine/jasmine#2.1.3"
+  },
+  "homepage": "https://github.com/theborakompanioni/countonmejs",
+  "_release": "0.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.1",
+    "commit": "e61935a5f52ff186a1ad30d2b7d034c3e1c867fc"
+  },
+  "_source": "git://github.com/theborakompanioni/countonmejs.git",
+  "_target": "0.1.1",
+  "_originalSource": "theborakompanioni/countonmejs"
+}

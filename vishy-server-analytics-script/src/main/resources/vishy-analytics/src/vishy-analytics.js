@@ -15,7 +15,8 @@
     });
     var monitor = VisSense.Client.Vishy(config, jsonHttp)
       .monitors({
-        projectId: elementId
+        projectId: config.projectId,
+        elementId: elementId
       }).custom(visobj, {
         interval: 1000,
         throttle: 100,
@@ -56,8 +57,7 @@
 
   var createMonitor = function (VisSense, elementId, config) {
     var Utils = VisSense.Utils;
-    var vishyConfig = Utils.extend(config, {
-      id: '42',
+    var vishyConfig = Utils.defaults(config, {
       readKey: '%%vishy.readKey%%',
       writeKey: '%%vishy.writeKey%%',
       protocol: 'http',

@@ -1,0 +1,54 @@
+{
+  "name": "vissense-user-activity",
+  "version": "0.3.0",
+  "license": "MIT",
+  "main": "dist/vissense-user-activity.min.js",
+  "description": "A VisSense.js plugin for testing user activity.",
+  "keywords": [
+    "vissense",
+    "plugin",
+    "user",
+    "activity",
+    "idle"
+  ],
+  "homepage": "https://www.github.com/vissense/vissense-user-activity",
+  "authors": [
+    "tbk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vissense/vissense-user-activity.git"
+  },
+  "ignore": [
+    "spec",
+    "bower_components",
+    "node_modules",
+    "templates",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "SpecRunner.html",
+    "package.json",
+    "bower.json",
+    "src/test",
+    "dist/coverage",
+    "**/.*"
+  ],
+  "dependencies": {
+    "vissense": "~0.8.0"
+  },
+  "devDependencies": {
+    "jasmine": "2.2.1",
+    "lodash": "2.4.1",
+    "jquery": "2.1.1",
+    "jasmine-jquery": "velesin/jasmine-jquery#2.1.0"
+  },
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.0",
+    "commit": "c5f9d2ad03d7b101a6be0cd807a4eff7db0599bf"
+  },
+  "_source": "git://github.com/vissense/vissense-user-activity.git",
+  "_target": "~0.3.0",
+  "_originalSource": "vissense/vissense-user-activity"
+}

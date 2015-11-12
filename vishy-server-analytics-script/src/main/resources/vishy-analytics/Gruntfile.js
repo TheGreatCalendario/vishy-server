@@ -78,13 +78,13 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: '<%= dirs.build %>',
-            src: [ '*.js', '!*/*.min.js'],
+            src: ['*.js', '!*/*.min.js'],
             dest: '<%= dirs.build %>',
             ext: '.js.gz'
           }, {
             expand: true,
             cwd: '<%= dirs.build %>',
-            src: [ '*.min.js'],
+            src: ['*.min.js'],
             dest: '<%= dirs.build %>',
             ext: '.min.js.gz'
           }
@@ -102,9 +102,19 @@ module.exports = function (grunt) {
         }
       },
       coverage: {
-        src: ['src/**/*.js'],
+        src: [
+          '<%= dirs.src %>/vissense-simple-client-monitor/index.js',
+          '<%= dirs.src %>/vissense-simple-vishy-client-monitor/index.js',
+          '<%= dirs.src %>/vishy-analytics.js'
+        ],
         options: {
           specs: ['spec/*Spec.js'],
+          helpers: [
+            '<%= dirs.bower %>/vissense/dist/vissense.min.js',
+            '<%= dirs.bower %>/vissense-percentage-time-test/dist/vissense-percentage-time-test.min.js',
+            '<%= dirs.bower %>/vissense-metrics/dist/vissense.metrics.min.js',
+            '<%= dirs.bower %>/vissense-user-activity/dist/vissense-user-activity.min.js',
+          ],
           template: require('grunt-template-jasmine-istanbul'),
           templateOptions: {
             coverage: '<%= dirs.coverage %>/coverage.json',
@@ -167,6 +177,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-notify');
 
-  grunt.registerTask('test', ['jasmine', 'karma', 'coveralls']);
+  grunt.registerTask('test', ['jasmine', 'karma'/*, 'coveralls'*/]);
   grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'compress', 'test', 'notify:js']);
 };

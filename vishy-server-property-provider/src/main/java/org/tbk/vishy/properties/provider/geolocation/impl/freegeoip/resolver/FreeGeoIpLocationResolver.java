@@ -26,18 +26,18 @@ import java.util.concurrent.TimeUnit;
 public class FreeGeoIpLocationResolver implements GeoLocationResolver {
     private static final String REMOTE_URL_PATTERN = "http://freegeoip.net/json/{ip}";
 
-    private LoadingCache<String, Optional<GeoLocation>> locationCache = CacheBuilder.newBuilder()
+    private final LoadingCache<String, Optional<GeoLocation>> locationCache = CacheBuilder.newBuilder()
             .expireAfterAccess(1, TimeUnit.DAYS)
             .maximumSize(10_000)
             .build(CacheLoader.from((ip) -> {
                 try {
                     Optional<GeoLocation> optionalLocation = fetchLocation(ip);
 
-                    log.warn("Resolved ip {} to location {}", ip, optionalLocation.orElse(null));
+                    log.debug("Resolved ip {} to location {}", ip, optionalLocation.orElse(null));
 
                     return optionalLocation;
                 } catch (UnirestException e) {
-                    log.warn("Could not resolve location from ip " + ip, e);
+                    log.warn("Could not resolve location from ip {}: {}", ip, e.getMessage());
                     return Optional.empty();
                 }
             }));

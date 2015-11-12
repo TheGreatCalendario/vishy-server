@@ -1,0 +1,38 @@
+{
+  "name": "angular-keenio",
+  "version": "0.0.3",
+  "authors": [
+    {
+      "name": "tbk",
+      "email": "theborakompanioni+angular-keenio@gmail.com"
+    }
+  ],
+  "main": [
+    "dist/angular-keenio.js"
+  ],
+  "ignore": [
+    "src",
+    "test",
+    "gulpfile.js",
+    "karma-*.conf.js",
+    "dist/coverage"
+  ],
+  "dependencies": {
+    "keen-js": "~3.2.3"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "angular-scenario": ">=1.2.0",
+    "angular": ">=1.2.0"
+  },
+  "homepage": "https://github.com/theborakompanioni/angular-keenio",
+  "_release": "0.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.3",
+    "commit": "c47a0b883270f7a73f261228d613482180f8ecb8"
+  },
+  "_source": "git://github.com/theborakompanioni/angular-keenio.git",
+  "_target": "0.0.3",
+  "_originalSource": "angular-keenio"
+}

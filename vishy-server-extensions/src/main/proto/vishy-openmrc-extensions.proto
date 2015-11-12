@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package com.github.theborakompanioni.openmrc;
+
+option java_outer_classname = "VishyOpenMrcExtensions";
+
+import "openmrc.proto";
+
+message Vishy {
+    extend Request {
+        optional Vishy vishy = 1000;
+    }
+
+    required string projectId = 1;
+    required string elementId = 2;
+}

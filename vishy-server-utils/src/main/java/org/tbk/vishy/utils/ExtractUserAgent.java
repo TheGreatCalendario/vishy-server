@@ -1,7 +1,7 @@
 package org.tbk.vishy.utils;
 
+import com.github.theborakompanioni.spring.useragentutils.UserAgentUtils;
 import eu.bitwalker.useragentutils.UserAgent;
-import org.tbk.spring.useragentutils.UserAgentUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;

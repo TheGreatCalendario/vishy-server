@@ -1,0 +1,35 @@
+{
+  "name": "tbk-angular-background-animations",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "theborakompanioni",
+      "email": "theborakompanioni+github@gmail.com"
+    }
+  ],
+  "main": [
+    "dist/tbk-angular-background-animations.js"
+  ],
+  "ignore": [
+    "src",
+    "test",
+    "Gruntfile.js",
+    "**/.*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "angular-scenario": ">=1.2.0",
+    "angular": ">=1.2.0"
+  },
+  "homepage": "https://github.com/theborakompanioni/tbk-angular-background-animations",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.1",
+    "commit": "d07bcb5b9b60ea4b2814ca4316fb99bbc1b63e0f"
+  },
+  "_source": "git://github.com/theborakompanioni/tbk-angular-background-animations.git",
+  "_target": "0.0.1",
+  "_originalSource": "theborakompanioni/tbk-angular-background-animations"
+}

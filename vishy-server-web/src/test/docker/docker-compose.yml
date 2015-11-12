@@ -1,0 +1,46 @@
+influxdb:
+  name: influxdb
+#  image: tutum/influxdb:staging-0.9.0-rc
+  image: tutum/influxdb:latest
+  ports:
+    - "8083:8083"
+    - "8086:8086"
+  expose:
+    - "8090"
+    - "8099"
+  environment:
+      PRE_CREATE_DB: "db;grafana"
+  volumes:
+    - /docker_data/influxdb:/data
+    - /var/log:/var/log
+
+grafana:
+  image: savoirfairelinux/grafana
+  ports:
+    - "80:80"
+  links:
+    - influxdb:influxdb
+  environment:
+    INFLUXDB_HOST: "influxdb" # docker creates a entry in /etc/hosts
+    INFLUXDB_PORT: "8086"
+    INFLUXDB_NAME: "db"
+    INFLUXDB_USER: "root"
+    INFLUXDB_PASS: "root"
+
+vishy:
+  image: tbk/vishy-server-web
+  ports:
+    - "8080:8080"
+  links:
+    - influxdb:influxdb
+  environment:
+    INFLUXDB_HOST_VAR: "INFLUXDB_1_PORT_8086_TCP_ADDR"
+    INFLUXDB_PORT_VAR: "INFLUXDB_1_PORT_8086_TCP_PORT"
+    INFLUXDB_NAME: "db"
+    INFLUXDB_USER: "root"
+    INFLUXDB_PASS: "root"
+    VISHY_CLIENT: "keenio"
+    KEENIO_PROJECT_ID: "54dcbf0b46f9a74800890203"
+    KEENIO_WRITE_KEY: "3d4c9372032dad964bf03a00f579c78b9c410e34111b1929cf989c9eabaad11801bce63621b689f0ef4bbf7c84b47efe3fb94b27d125fc44fbd51d9f08c605b9e876c001d2105d1ba48f2fdee113b1b16e7e6847bb2b14822181262360cf668fab24ed77230e86dda8082be083b49a1e"
+    KEENIO_READ_KEY: "f0de436f2fb5f41ddc57d01f4933056645f15ed6f0a7f44a643eaa665129560e1a2ab21ff4a8e8a79926e1444d847b33cf7ce4cf49fe0e49fa7120cb34803e6066fbf26fda801986ae8a60ea01a715a07491fc516c5b723a41dfef512a173124a65c8f15889450d295d8bc5a71e73c7c"
+    SEGMENTIO_WRITE_KEY: "vkeLyauEBLwCnSj9Tf60u2KAsJ1xk8ra"

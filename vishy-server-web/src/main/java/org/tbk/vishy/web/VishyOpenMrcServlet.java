@@ -1,7 +1,7 @@
 package org.tbk.vishy.web;
 
 
-import org.tbk.openmrc.core.client.OpenMrcClientList;
+import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,11 +12,11 @@ import java.util.Objects;
 
 public class VishyOpenMrcServlet extends HttpServlet {
 
-    private final OpenMrcClientList clients;
+    private final OpenMrcHttpRequestService openMrcService;
 
-    public VishyOpenMrcServlet(OpenMrcClientList clients) {
+    public VishyOpenMrcServlet(OpenMrcHttpRequestService openMrcService) {
         super();
-        this.clients = Objects.requireNonNull(clients);
+        this.openMrcService = Objects.requireNonNull(openMrcService);
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

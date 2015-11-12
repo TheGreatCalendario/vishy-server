@@ -1,0 +1,36 @@
+{
+  "name": "tbk-angular-draggable",
+  "authors": [
+    "tbk <theborakompanioni+angular-draggable@gmail.com>"
+  ],
+  "main": [
+    "./main.js"
+  ],
+  "description": "a simple angular directive to make elements draggable",
+  "keywords": [
+    "angular",
+    "directive",
+    "draggable"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.11"
+  },
+  "homepage": "https://github.com/theborakompanioni/tbk-angular-draggable",
+  "_release": "ef69aa699d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ef69aa699dbfd59df121c4d751835424be934030"
+  },
+  "_source": "git://github.com/theborakompanioni/tbk-angular-draggable.git",
+  "_target": "master",
+  "_originalSource": "theborakompanioni/tbk-angular-draggable"
+}

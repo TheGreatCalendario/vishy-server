@@ -3,7 +3,7 @@ VOLUME /tmp
 
 EXPOSE 8080
 
-ADD vishy-server-web-1.0.0-SNAPSHOT.jar app.jar
+ADD vishy-server-web-1.1.0-SNAPSHOT.jar app.jar
 
 RUN bash -c 'touch /app.jar'
 

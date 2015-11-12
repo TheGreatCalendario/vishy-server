@@ -1,0 +1,48 @@
+spring.profiles.active: production
+spring.main.show-banner: true
+
+app.name: vishy-server-test
+app.description: a simple openmrc test server
+
+management.context-path: /actuator
+
+# LOGGING
+logging.path: ./var/log
+logging.file: application.log
+logging.config: classpath:logback.xml
+logging.level.org.springframework: DEBUG
+
+vishy.elasticsearch:
+  enabled: true
+
+vishy.segmentio:
+  enabled: true
+  write-key: vkeLyauEBLwCnSj9Tf60u2KAsJ1xk8ra
+
+vishy.keenio:
+  enabled: true
+  project-id: 54dcbf0b46f9a74800890203
+  read-key: f0de436f2fb5f41ddc57d01f4933056645f15ed6f0a7f44a643eaa665129560e1a2ab21ff4a8e8a79926e1444d847b33cf7ce4cf49fe0e49fa7120cb34803e6066fbf26fda801986ae8a60ea01a715a07491fc516c5b723a41dfef512a173124a65c8f15889450d295d8bc5a71e73c7c
+  write-key: 3d4c9372032dad964bf03a00f579c78b9c410e34111b1929cf989c9eabaad11801bce63621b689f0ef4bbf7c84b47efe3fb94b27d125fc44fbd51d9f08c605b9e876c001d2105d1ba48f2fdee113b1b16e7e6847bb2b14822181262360cf668fab24ed77230e86dda8082be083b49a1e
+
+# ELASTICSEARCH
+spring.data.elasticsearch:
+  cluster-name: elasticsearch-test-cluster
+  cluster-nodes: # The address(es) of the server node (comma-separated; if not specified starts a client node)
+  repositories.enabled: true
+  properties:
+    index.refresh_interval: 60s
+    path.data: /tmp/data-test/
+    threadpool:
+      index:
+        type: fixed
+        size: 1
+        queue_size: 1000
+      search:
+        type: fixed
+        size: 1
+        queue_size: 1000
+      refresh:
+        type: fixed
+        size: 1
+        queue_size: 1000

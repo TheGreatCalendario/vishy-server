@@ -1,76 +1,44 @@
 package org.tbk.vishy.web;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.theborakompanioni.openmrc.web.OpenMrcHttpRequestService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.tbk.openmrc.core.OpenMrcRequestContext;
-import org.tbk.openmrc.core.OpenMrcService;
-import org.tbk.openmrc.core.dto.OpenMrcRequestDto;
-import org.tbk.vishy.dto.AbstractRequestDto;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/openmrc")
 public class VishyOpenMrcCtrl {
 
-    private final OpenMrcService openMrcService;
-
-    private final ObjectMapper mapper;
-
-    private final Function<Object, Map<String, Object>> asMap;
+    private final OpenMrcHttpRequestService openMrcService;
 
     @Autowired
-    public VishyOpenMrcCtrl(OpenMrcService openMrcService, ObjectMapper mapper) {
+    public VishyOpenMrcCtrl(OpenMrcHttpRequestService openMrcService) {
         this.openMrcService = openMrcService;
-        this.mapper = mapper;
-
-        this.asMap = obj -> mapper.convertValue(obj, Map.class);
     }
 
-    @RequestMapping(value = "/{clientName}/track/{userId}/{event}", method = RequestMethod.POST)
-    public ResponseEntity<Void> postTrack(
-        HttpServletRequest request,
-        @PathVariable String clientName,
-        @PathVariable String userId,
-        @PathVariable String event) {
-
+    @RequestMapping(value = "/consume", method = RequestMethod.POST)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "payload", dataType = "String", paramType = "body", required = true)
+    })
+    public ResponseEntity<Void> trackMapping(HttpServletRequest request) {
         try {
-            track(request, clientName, userId, event);
-        } catch (IOException e) {
+            HttpServletResponse response = openMrcService.apply(request);
+            return ResponseEntity.status(response.getStatus()).build();
+        } catch (RuntimeException | Error e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
-
-        return ResponseEntity.accepted().build();
-    }
-
-    private void track(HttpServletRequest request, String clientName, String userId, String event)
-        throws IOException {
-
-        OpenMrcRequestDto requestData = readAndConvertJsonRequestBody(request, AbstractRequestDto.class);
-        Map<String, Object> properties = Optional.ofNullable(requestData).map(asMap).get();
-
-        openMrcService.track(OpenMrcRequestContext.builder()
-            .httpRequest(request)
-            .clientName(clientName)
-            .userId(userId)
-            .event(event)
-            .data(requestData)
-            .properties(properties)
-            .build());
-    }
-
-    private <T> T readAndConvertJsonRequestBody(HttpServletRequest request, Class<T> clazz) throws IOException {
-        JsonNode jsonNode = mapper.readTree(request.getReader());
-        return mapper.convertValue(jsonNode, clazz);
     }
 }

@@ -52,7 +52,6 @@ public class StaticResourcesConfiguration extends WebMvcAutoConfiguration.WebMvc
 
         logger.info("Add resource handler for 'static/**' to " + Arrays.toString(RESOURCE_LOCATIONS));
 
-
         registry.addResourceHandler("/static/**")
                 .addResourceLocations(RESOURCE_LOCATIONS)
                 .setCachePeriod(cachePeriod)
@@ -61,11 +60,15 @@ public class StaticResourcesConfiguration extends WebMvcAutoConfiguration.WebMvc
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"))
                 .addTransformer(new AppCacheManifestTransformer());
 
-
         if (!registry.hasMappingForPattern("/webjars/**")) {
             registry.addResourceHandler("/webjars/**")
                     .addResourceLocations("classpath:/META-INF/resources/webjars/")
                     .setCachePeriod(cachePeriod);
         }
+
+        // important for swagger-ui
+        registry.addResourceHandler("/swagger-ui.html")
+                .addResourceLocations("classpath:/static/swagger-ui.html")
+                .setCachePeriod(cachePeriod);
     }
 }

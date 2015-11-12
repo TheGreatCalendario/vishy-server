@@ -17,16 +17,17 @@ public class SimpleCorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        Optional.ofNullable(request.getHeader("Origin"))
-            .map(Strings::emptyToNull)
-            .map(BREAKING_MATCHER::removeFrom)
-            .ifPresent(origin -> {
-                response.setHeader("Access-Control-Allow-Origin", origin);
-                response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-                response.setHeader("Access-Control-Max-Age", "3600");
-                response.setHeader("Access-Control-Allow-Headers", "accept,content-type,x-requested-with");
-                response.setHeader("Access-Control-Allow-Credentials", "true");
-            });
+        Optional<String> originHeaderValue = Optional.ofNullable(request.getHeader("Origin"))
+                .map(Strings::emptyToNull)
+                .map(BREAKING_MATCHER::removeFrom);
+
+        final String allowOrigin = originHeaderValue.orElse("*");
+        response.setHeader("Access-Control-Allow-Origin", allowOrigin);
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "accept,content-type,x-requested-with");
+
+        originHeaderValue.ifPresent(foo -> response.setHeader("Access-Control-Allow-Credentials", "true"));
 
         chain.doFilter(req, res);
     }

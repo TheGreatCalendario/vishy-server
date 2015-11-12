@@ -1,16 +1,17 @@
 package org.tbk.vishy.config.handler;
 
+import com.github.theborakompanioni.spring.useragentutils.UserAgentHandlerMethodArgumentResolver;
+import com.github.theborakompanioni.spring.useragentutils.UserAgentResolverHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.tbk.spring.useragentutils.UserAgentHandlerMethodArgumentResolver;
-import org.tbk.spring.useragentutils.UserAgentResolverHandlerInterceptor;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+
 
 /**
  * Created by void on 08.03.15.

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vishy-server</artifactId>
         <groupId>org.tbk.vishy</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -28,37 +28,56 @@
                 <version>1.7</version>
                 <executions>
                     <execution>
+                        <id>run npm install</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <target>
+                                <macrodef name="npm">
+                                    <attribute name="dir"/>
+                                    <sequential>
+                                        <echo>======================================================</echo>
+                                        <echo>======== npm: @{dir}</echo>
+                                        <echo>======================================================</echo>
+                                        <exec osfamily="windows" executable="cmd" dir="@{dir}" failonerror="true">
+                                            <arg value="/c"/>
+                                            <arg value="npm"/>
+                                            <arg value="install"/>
+                                        </exec>
+                                        <exec osfamily="unix" executable="bash" dir="@{dir}" failonerror="true">
+                                            <arg line="-c 'npm install'"/>
+                                        </exec>
+                                    </sequential>
+                                </macrodef>
+
+                                <npm dir="${project.basedir}/src/main/resources/vishy-analytics"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>run grunt</id>
                         <phase>generate-sources</phase>
                         <configuration>
                             <target>
                                 <macrodef name="grunt">
-                                    <attribute name="dir" />
+                                    <attribute name="dir"/>
                                     <sequential>
-                                        <echo>====================================================================================</echo>
+                                        <echo>======================================================</echo>
                                         <echo>======== grunt: @{dir}</echo>
-                                        <echo>====================================================================================</echo>
-                                        <exec os="Windows 7" executable="cmd" dir="@{dir}" failonerror="true">
-                                            <arg value="/c" />
-                                            <arg value="npm" />
-                                            <arg value="install" />
+                                        <echo>======================================================</echo>
+                                        <exec osfamily="windows" executable="cmd" dir="@{dir}" failonerror="true">
+                                            <arg value="/c"/>
+                                            <arg value="%APPDATA%/npm/grunt"/>
                                         </exec>
-                                        <exec os="Windows 7" executable="cmd" dir="@{dir}"
-                                              failonerror="true">
-                                            <arg value="/c" />
-                                            <arg value="%APPDATA%/npm/grunt" />
-                                        </exec>
-                                        <exec os="Linux" executable="npm" dir="@{dir}"
-                                              failonerror="true">
-                                            <arg value="install" />
-                                        </exec>
-                                        <exec os="Linux" executable="/usr/bin/grunt" dir="@{dir}"
-                                              failonerror="true">
+                                        <exec osfamily="unix" executable="bash" dir="@{dir}" failonerror="true">
+                                            <arg line="-c 'grunt'"/>
                                         </exec>
                                     </sequential>
                                 </macrodef>
 
-                                <grunt dir="${project.basedir}/src/main/resources/vishy-analytics" />
+                                <grunt dir="${project.basedir}/src/main/resources/vishy-analytics"/>
                             </target>
                         </configuration>
                         <goals>

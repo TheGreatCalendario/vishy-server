@@ -3,43 +3,37 @@ package org.tbk.vishy.client.segmentio;
 import com.github.segmentio.Analytics;
 import com.github.segmentio.Client;
 import com.github.segmentio.Options;
+import com.github.theborakompanioni.openmrc.OpenMrcRequestConsumer;
+import com.github.theborakompanioni.openmrc.mapper.StandardOpenMrcJsonMapper;
 import com.ning.http.client.AsyncHttpClientConfig;
-import io.keen.client.java.KeenClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.tbk.openmrc.core.client.OpenMrcClient;
-import org.tbk.vishy.client.keenio.KeenOpenMrcClientAdapter;
+import org.tbk.vishy.client.RequestToMapFunction;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 
+@Slf4j
 @Configuration
-@Conditional(SegmentIoCondition.class)
+@EnableConfigurationProperties(SegmentIoProperties.class)
+@ConditionalOnProperty("vishy.segmentio.enabled")
 public class SegmentIoConfig {
-    static final class EnvironmentVariables {
-        private static final String WRITE_KEY = "SEGMENTIO_WRITE_KEY";
-    }
 
     @Autowired
-    private Environment environment;
+    private SegmentIoProperties properties;
 
     @Bean
-    public OpenMrcClient keenOpenMrcClientAdapter(KeenClient keenClient) {
-        return new KeenOpenMrcClientAdapter(keenClient);
-    }
-
-    @Bean
-    public OpenMrcClient analyticsClient() {
-        return new SegmentOpenMrcClientAdapter(analytics());
+    public OpenMrcRequestConsumer analyticsClient() {
+        return new SegmentOpenMrcClientAdapter(analytics(), new RequestToMapFunction());
     }
 
     @Bean
     public Client analytics() {
-        String writeKey = environment.getProperty(EnvironmentVariables.WRITE_KEY);
-
-        Objects.requireNonNull(writeKey, "Environment variable " + EnvironmentVariables.WRITE_KEY + "not specified.");
+        String writeKey = requireNonNull(properties.getWriteKey(), "Segment write key not specified.");
 
         Analytics.initialize(writeKey, options());
 

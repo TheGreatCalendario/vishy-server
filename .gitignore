@@ -2,6 +2,8 @@
 # Project Specific
 ######################
 /src/main/webapp/dist
+app.pid
+app.port
 
 ######################
 # Node
@@ -102,13 +104,15 @@ Desktop.ini
 /build/**
 /bin/**
 /data/**
+**/data-test/**
 /spring_loaded/**
 /deploy/**
 
 ######################
 # Logs
 ######################
-*.log
+**/*.log
+**/*.log.*
 
 ######################
 # Others

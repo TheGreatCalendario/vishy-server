@@ -1,28 +1,32 @@
 package org.tbk.vishy;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.boot.SpringApplication;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.actuate.system.ApplicationPidFileWriter;
+import org.springframework.boot.actuate.system.EmbeddedServerPortFileWriter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationListener;
 
-import java.util.Arrays;
-
+@Slf4j
 @SpringBootApplication
 public class Application {
 
-    private static Log logger = LogFactory.getLog(Application.class);
-
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
-
-        logger.info("Beans in application context:");
-
-        String[] beanNames = ctx.getBeanDefinitionNames();
-        Arrays.sort(beanNames);
-        for (String beanName : beanNames) {
-            logger.info(beanName);
-        }
+        new SpringApplicationBuilder()
+                .sources(Application.class)
+                .showBanner(true)
+                .listeners(applicationPidFileWriter(), embeddedServerPortFileWriter())
+                .web(true)
+                .run(args);
     }
+
+    public static ApplicationListener<?> applicationPidFileWriter() {
+        return new ApplicationPidFileWriter("app.pid");
+    }
+
+    public static ApplicationListener<?> embeddedServerPortFileWriter() {
+        return new EmbeddedServerPortFileWriter("app.port");
+    }
+
 
 }
